@@ -136,7 +136,7 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
     } else {
       setIsLoggedIn(false)
     }
-  }, [isLoggedIn])
+  }, [mdp, nbEssais, isLoggedIn])
 
   useEffect(() => {
     if (nbEssais === 0) {
