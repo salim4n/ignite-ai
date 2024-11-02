@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ReactMarkdown from "react-markdown"
+import local from "next/font/local"
 
 type Message = {
   content: string
@@ -20,6 +21,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [password, setPassword] = useState("")
+  const [isSalim, setIsSalim] = useState(false)
+  const [nbEssais, setNbEssais] = useState(0)
 
   const mdp = process.env.NEXT_PUBLIC_MDP
 
@@ -102,6 +105,16 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
   // Méthode pour afficher les posts générés
   const handleGenerateLinkedInPosts = async () => {
     setIsLoading(true)
+    if (!isSalim && nbEssais === 0) {
+      alert("Vous avez déjà utilisé 3 essais gratuits")
+      sessionStorage.setItem("growth-app-session", "done")
+      return
+    }
+
+    if (!isSalim) {
+      setNbEssais(nbEssais - 1)
+    }
+
     const posts = await generateLinkedInPosts()
 
     const newAIMessage = {
@@ -118,17 +131,47 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
     const session = window.sessionStorage.getItem("growth-app-session")
     if (session === mdp) {
       setIsLoggedIn(true)
+    } else if (nbEssais !== 0) {
+      setIsLoggedIn(true)
     } else {
       setIsLoggedIn(false)
     }
   }, [isLoggedIn])
 
+  useEffect(() => {
+    if (nbEssais === 0) {
+      sessionStorage.setItem("growth-app-session", "done")
+    }
+  }, [nbEssais])
+
+  useEffect(() => {
+    if (!isSalim) {
+      const isDone = sessionStorage.getItem("growth-app-session")
+      const fromLocalStorage = localStorage.getItem("growth-app-session")
+      if (isDone === "done" || fromLocalStorage === "done") {
+        setIsLoggedIn(false)
+      }
+    }
+  }, [isSalim])
+
   async function login(password: string) {
     if (password === mdp) {
       window.sessionStorage.setItem("growth-app-session", password)
       setIsLoggedIn(true)
+      setIsSalim(true)
     } else {
+      setIsSalim(false)
       alert("Mot de passe incorrect")
+    }
+  }
+
+  function isDisabled() {
+    if (isSalim) {
+      return false
+    } else if (nbEssais === 0) {
+      return true
+    } else {
+      return false
     }
   }
 
@@ -136,8 +179,15 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
     <div className="flex flex-col h-[600px] max-w-2xl mx-auto border rounded-lg overflow-hidden">
       <div className="bg-primary p-4">
         <h2 className="text-2xl font-bold text-primary-foreground">
-          Growth APP - AI Chat
+          Linkedin Post APP By AI- {isSalim ? "Salim" : " Invité"}
         </h2>
+        {!isSalim && (
+          <div className="flex justify-center">
+            <div className="max-w-[80%] p-3 rounded-lg bg-secondary text-secondary-foreground">
+              <p>Vous avez {nbEssais} essais gratuits restants</p>
+            </div>
+          </div>
+        )}
       </div>
       <ScrollArea className="flex-grow p-4 space-y-4 items-center">
         {messages.map((message, index) => (
@@ -161,7 +211,7 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
           <div className="flex justify-start">
             <div className="max-w-[80%] p-3 rounded-lg bg-secondary text-secondary-foreground">
               <Bot className="inline-block mr-2 h-4 w-4" />
-              Thinking... 🤔
+              Je suis en train de créer vos post LinkedIn... 🤔
             </div>
           </div>
         )}
@@ -179,7 +229,7 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
             value={inputMessage}
             onChange={e => setInputMessage(e.target.value)}
           />
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isDisabled()}>
             <Send className="h-4 w-4" />
             <span className="sr-only">Send</span>
           </Button>
@@ -190,13 +240,30 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
     <div className="flex flex-col h-[600px] max-w-2xl mx-auto border rounded-lg overflow-hidden">
       <div className="bg-primary p-4">
         <h2 className="text-2xl font-bold text-primary-foreground">
-          Growth APP - AI Chat
+          Linkedin Post APP By AI- {isSalim ? "Salim" : " Invité"}
         </h2>
       </div>
       <div className="flex justify-center">
         <div className="max-w-[80%] p-3 rounded-lg bg-secondary text-secondary-foreground">
           <p>Vous devez être connecté pour accéder à cette page</p>
         </div>
+      </div>
+      <div className="p-4 border-t flex justify-center">
+        <Button
+          onClick={() => {
+            if (sessionStorage.getItem("growth-app-session") === "done") {
+              setIsSalim(false)
+              setIsLoggedIn(false)
+              setNbEssais(0)
+              alert("Vous avez déjà utilisé vos essais gratuits")
+            } else {
+              setIsSalim(false)
+              setIsLoggedIn(true)
+              setNbEssais(1)
+            }
+          }}>
+          Obtenir 3 essais gratuits
+        </Button>
       </div>
       <div className="p-4 border-t">
         <Input
