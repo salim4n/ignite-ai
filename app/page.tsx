@@ -2,7 +2,7 @@
 
 import { ChatOpenAI } from "@langchain/openai"
 import { ChatPromptTemplate } from "@langchain/core/prompts"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Bot, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -18,6 +18,10 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([])
   const [inputMessage, setInputMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [password, setPassword] = useState("")
+
+  const mdp = process.env.NEXT_PUBLIC_MDP
 
   const llm = new ChatOpenAI({
     model: "gpt-4o",
@@ -110,7 +114,25 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
     setIsLoading(false)
   }
 
-  return (
+  useEffect(() => {
+    const session = window.sessionStorage.getItem("growth-app-session")
+    if (session === mdp) {
+      setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
+    }
+  }, [isLoggedIn])
+
+  async function login(password: string) {
+    if (password === mdp) {
+      window.sessionStorage.setItem("growth-app-session", password)
+      setIsLoggedIn(true)
+    } else {
+      alert("Mot de passe incorrect")
+    }
+  }
+
+  return isLoggedIn ? (
     <div className="flex flex-col h-[600px] max-w-2xl mx-auto border rounded-lg overflow-hidden">
       <div className="bg-primary p-4">
         <h2 className="text-2xl font-bold text-primary-foreground">
@@ -162,6 +184,41 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
             <span className="sr-only">Send</span>
           </Button>
         </form>
+      </div>
+    </div>
+  ) : (
+    <div className="flex flex-col h-[600px] max-w-2xl mx-auto border rounded-lg overflow-hidden">
+      <div className="bg-primary p-4">
+        <h2 className="text-2xl font-bold text-primary-foreground">
+          Growth APP - AI Chat
+        </h2>
+      </div>
+      <div className="flex justify-center">
+        <div className="max-w-[80%] p-3 rounded-lg bg-secondary text-secondary-foreground">
+          <p>Vous devez être connecté pour accéder à cette page</p>
+        </div>
+      </div>
+      <div className="p-4 border-t">
+        <Input
+          type="password"
+          placeholder="Mot de passe..."
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          className="w-full"
+          autoComplete="current-password"
+          required
+        />
+      </div>
+      <div className="flex justify-center">
+        <Button
+          type="submit"
+          disabled={isLoading}
+          onClick={() => {
+            login(password)
+          }}>
+          <Send className="h-4 w-4" />
+          <span className="sr-only">Envoyer</span>
+        </Button>
       </div>
     </div>
   )
