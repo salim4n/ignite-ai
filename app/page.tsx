@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ReactMarkdown from "react-markdown"
-import local from "next/font/local"
+import Image from "next/image"
 
 type Message = {
   content: string
@@ -178,7 +178,15 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
   return isLoggedIn ? (
     <div className="flex flex-col h-[600px] max-w-2xl mx-auto border rounded-lg overflow-hidden">
       <div className="bg-primary p-4">
-        <h2 className="text-2xl font-bold text-primary-foreground">
+        <h2 className="text-2xl font-bold text-primary-foreground flex items-center">
+          <Image
+            src="/flame.gif"
+            alt="logo"
+            width={38}
+            height={38}
+            priority
+            className="transition-transform transform hover:scale-110 hover:brightness-125"
+          />
           Linkedin Post APP By AI- {isSalim ? "Salim" : " Invité"}
         </h2>
         {!isSalim && (
@@ -239,7 +247,15 @@ En orientant le contenu sur les sujets d’actualité et les besoins dans ces do
   ) : (
     <div className="flex flex-col h-[600px] max-w-2xl mx-auto border rounded-lg overflow-hidden">
       <div className="bg-primary p-4">
-        <h2 className="text-2xl font-bold text-primary-foreground">
+        <h2 className="text-2xl font-bold text-primary-foreground flex items-center">
+          <Image
+            src="/flame.gif"
+            alt="logo"
+            width={38}
+            height={38}
+            priority
+            className="transition-transform transform hover:scale-110 hover:brightness-125 hover:w-10"
+          />
           Linkedin Post APP By AI- {isSalim ? "Salim" : " Invité"}
         </h2>
       </div>
