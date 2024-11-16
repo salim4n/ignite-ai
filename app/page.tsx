@@ -33,25 +33,17 @@ export default function Home() {
 		apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY, // Sécurisez votre clé API
 	});
 
-	const postCSVLink =
-		"https://huggingface.co/datasets/IgnitionAI/growth-post/resolve/main/671fbf031eb34_posts.csv";
 	const accrocheTextLink =
 		"https://huggingface.co/datasets/IgnitionAI/growth-post/resolve/main/accroche.txt";
 
 	const generateLinkedInPosts = async () => {
 		try {
-			// Charger les fichiers
-			const csvResponse = await fetch(postCSVLink);
-			const csvData = await csvResponse.text();
-			// take only 30 rows randomly
-			const filteredCSV = csvData.split("\n").slice(0, 30);
-
 			const accrocheResponse = await fetch(accrocheTextLink);
 			const accrocheText = await accrocheResponse.text();
 
 			// Créer un prompt pour générer des posts LinkedIn
 			const prompt = ChatPromptTemplate.fromTemplate(
-				" {rubbenPrompt}, pour faire un post LinkedIn sur le sujet : {subject}, fait une accroche percutante : {accroche}, un post de type : {type}, et utilise le formatage MARKDOWN",
+				" {rubbenPrompt}, pour faire un post LinkedIn sur le sujet : {subject}, fait une accroche percutante en choissant une accroche de la liste : {accroche}, un post de type : {type}, et utilise le formatage MARKDOWN",
 			);
 
 			// Créer la chaîne de génération de texte

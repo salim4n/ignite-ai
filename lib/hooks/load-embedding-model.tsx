@@ -60,8 +60,8 @@ export const useEmbeddingModel = () => {
 			// Traiter les données par lots pour éviter la surcharge mémoire
 			const BATCH_SIZE = 8;
 			console.log("Batch size:", BATCH_SIZE);
-			let arrayCSV: number[][] = [];
-			let arrayTXT: number[][] = [];
+			const arrayCSV: number[][] = [];
+			const arrayTXT: number[][] = [];
 
 			// Traitement par lots pour CSV
 			for (let i = 0; i < csvContent.length; i += BATCH_SIZE) {
