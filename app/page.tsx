@@ -103,7 +103,7 @@ export default function Home() {
 	};
 
 	return (
-		<div className="flex flex-col h-[600px] max-w-2xl mx-auto border rounded-lg overflow-hidden">
+		<div className="flex flex-col h-screen max-w-full mx-auto border rounded-lg overflow-hidden">
 			<div className="bg-primary p-4">
 				<h2 className="text-2xl font-bold text-primary-foreground flex items-center">
 					<Logo />
