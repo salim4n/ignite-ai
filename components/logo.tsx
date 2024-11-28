@@ -11,7 +11,7 @@ export default function Logo() {
 			priority
 			unoptimized
 			onClick={() => {
-				window.open("https://ignitionai-note.vercel.app/", "_blank");
+				window.open("https://ignitionai.fr/", "_blank");
 			}}
 			className="transition-transform transform hover:scale-110 hover:brightness-125 hover:cursor-pointer"
 		/>
