@@ -109,6 +109,13 @@ export default function Home() {
 					<Logo />
 					QA - DATA
 				</h2>
+				<span className="text-sm text-white font-semibold">
+					L'IA est connecté à une base de données de fret de la société Spydr
+				</span>
+				<br />
+				<span className="text-sm text-white font-semibold">
+					Elle va répondre à vos questions sur ces données
+				</span>
 			</div>
 			<ScrollArea className="flex-grow p-4 space-y-4">
 				{messages.map((message, index) => (
