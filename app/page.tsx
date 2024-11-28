@@ -9,6 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import ReactMarkdown from "react-markdown";
 import Logo from "@/components/logo";
 import { motion } from "framer-motion";
+import { sendTelegramMessage } from "@/lib/telegram";
 
 type Message = {
 	content: string;
@@ -96,6 +97,7 @@ export default function Home() {
 	};
 
 	useEffect(() => {
+		sendTelegramMessage();
 		loadCsvData();
 	}, []);
 
@@ -160,17 +162,17 @@ export default function Home() {
 				))}
 				{isLoading && (
 					<motion.div
-			className="flex justify-start"
-			initial={{ opacity: 0, y: 20 }} // Animation initiale
-			animate={{ opacity: 1, y: 0 }} // Animation finale
-			transition={{ duration: 0.3 }} // Durée de l'animation
-		>
-					<div className="flex justify-start">
-						<div className="max-w-[80%] p-3 rounded-lg bg-secondary text-secondary-foreground">
-							<Bot className="inline-block mr-2 h-4 w-4" />
-							Je suis en train de répondre à votre question... 🤔
+						className="flex justify-start"
+						initial={{ opacity: 0, y: 20 }} // Animation initiale
+						animate={{ opacity: 1, y: 0 }} // Animation finale
+						transition={{ duration: 0.3 }} // Durée de l'animation
+					>
+						<div className="flex justify-start">
+							<div className="max-w-[80%] p-3 rounded-lg bg-secondary text-secondary-foreground">
+								<Bot className="inline-block mr-2 h-4 w-4" />
+								Je suis en train de répondre à votre question... 🤔
+							</div>
 						</div>
-					</div>
 					</motion.div>
 				)}
 			</ScrollArea>
