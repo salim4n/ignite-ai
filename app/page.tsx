@@ -23,13 +23,13 @@ export default function Home() {
 	const [csvData, setCsvData] = useState<any[]>([]);
 
 	const llm = new ChatOpenAI({
-		modelName: "gpt-4", // Correction du nom du modèle
-		temperature: 0.7,
+		modelName: "gpt-4o-mini", // Correction du nom du modèle
+		temperature: 0.2,
 		apiKey: apiKey,
 	});
 
 	const freightsCSVLink =
-		"https://huggingface.co/datasets/IgnitionAI/spydr-pock/resolve/main/freights.csv";
+		"https://huggingface.co/datasets/Shengtao/recipe/resolve/main/recipe.csv";
 
 	const loadCsvData = async () => {
 		try {
@@ -65,7 +65,7 @@ export default function Home() {
 		try {
 			// Créer un prompt template pour mieux structurer la question
 			const prompt = ChatPromptTemplate.fromTemplate(`
-        En tant qu'assistant, aide-moi à analyser ces données de fret.
+        En tant qu'assistant, aide-moi à analyser ces données de recettes.
         Contexte: {context}
         Question: {question}
         Réponds de manière concise et précise.
@@ -109,14 +109,21 @@ export default function Home() {
 					<Logo />
 				</h2>
 				<br />
-				<span className="text-sm text-white font-semibold">Spidr AI</span>
-				<br />
 				<span className="text-sm text-white font-semibold">
-					L IA est connecté à une base de données de fret de la société Spidr
+					Ignition Recipes AI
 				</span>
 				<br />
 				<span className="text-sm text-white font-semibold">
-					Elle va répondre à vos questions sur ces données
+					L IA est connecté à une base de données de recettes
+				</span>
+				<br />
+				<span className="text-sm text-white font-semibold">
+					Vous pouvez lui demander les auteurs, categories, descriptions, etc
+				</span>
+				<br />
+				<span className="text-sm text-white font-semibold">
+					Pour votre premiere requete, je vous conseille de lui demander que
+					dois je savoir sur ces données
 				</span>
 			</div>
 			<ScrollArea className="flex-grow p-4 space-y-4">

@@ -14,10 +14,10 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-	title: "Spidr AI ",
+	title: "Ignition Recipes AI",
 	description:
-		"L IA est connecté à une base de données de fret de la société Spidr",
-	icons: "./spidr_logo.svg",
+		"L IA est connecté à une base de données de recettes et va répondre à vos questions sur ces données",
+	icons: "./flame.gif",
 };
 
 export default function RootLayout({
