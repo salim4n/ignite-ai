@@ -14,6 +14,8 @@ type Message = {
 	isUser: boolean;
 };
 
+const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+
 export default function Home() {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [inputMessage, setInputMessage] = useState("");
@@ -23,7 +25,7 @@ export default function Home() {
 	const llm = new ChatOpenAI({
 		modelName: "gpt-4", // Correction du nom du modèle
 		temperature: 0.7,
-		apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+		apiKey: apiKey,
 	});
 
 	const freightsCSVLink =
@@ -67,6 +69,7 @@ export default function Home() {
         Contexte: {context}
         Question: {question}
         Réponds de manière concise et précise.
+		Tu ajouteras aussi une requete SQL pour récupérer les données correspondantes à la question (tu ne dois pas dire que c'est un csv et faire comme si c'etait une base de données)
       `);
 
 			const chain = prompt.pipe(llm);
