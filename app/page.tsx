@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ReactMarkdown from "react-markdown";
 import Logo from "@/components/logo";
+import { motion } from "framer-motion";
 
 type Message = {
 	content: string;
@@ -128,29 +129,49 @@ export default function Home() {
 			</div>
 			<ScrollArea className="flex-grow p-4 space-y-4">
 				{messages.map((message, index) => (
-					<div
+					<motion.div
 						key={index}
 						className={`flex ${
 							message.isUser ? "justify-end" : "justify-start"
-						}`}>
+						}`}
+						initial={{ opacity: 0, y: 20 }} // Animation initiale
+						animate={{ opacity: 1, y: 0 }} // Animation finale
+						exit={{ opacity: 0, y: -20 }} // Animation de sortie
+						transition={{ duration: 0.3 }} // Durée de l'animation
+					>
 						<div
-							className={`max-w-[80%] p-3 rounded-lg ${
-								message.isUser
-									? "bg-primary text-primary-foreground"
-									: "bg-secondary text-secondary-foreground"
+							key={index}
+							className={`flex ${
+								message.isUser ? "justify-end" : "justify-start"
 							}`}>
-							{!message.isUser && <Bot className="inline-block mr-2 h-4 w-4" />}
-							<ReactMarkdown>{message.content}</ReactMarkdown>
+							<div
+								className={`max-w-[80%] p-3 rounded-lg ${
+									message.isUser
+										? "bg-primary text-primary-foreground"
+										: "bg-secondary text-secondary-foreground"
+								}`}>
+								{!message.isUser && (
+									<Bot className="inline-block mr-2 h-4 w-4" />
+								)}
+								<ReactMarkdown>{message.content}</ReactMarkdown>
+							</div>
 						</div>
-					</div>
+					</motion.div>
 				))}
 				{isLoading && (
+					<motion.div
+			className="flex justify-start"
+			initial={{ opacity: 0, y: 20 }} // Animation initiale
+			animate={{ opacity: 1, y: 0 }} // Animation finale
+			transition={{ duration: 0.3 }} // Durée de l'animation
+		>
 					<div className="flex justify-start">
 						<div className="max-w-[80%] p-3 rounded-lg bg-secondary text-secondary-foreground">
 							<Bot className="inline-block mr-2 h-4 w-4" />
 							Je suis en train de répondre à votre question... 🤔
 						</div>
 					</div>
+					</motion.div>
 				)}
 			</ScrollArea>
 			<div className="p-4 border-t">
