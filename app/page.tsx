@@ -81,6 +81,7 @@ export default function Home() {
 				{ content: response.content.toString(), isUser: false },
 			]);
 		} catch (error) {
+			console.error("erreur dans la réponse", error);
 			setMessages((prev) => [
 				...prev,
 				{ content: "Désolé, une erreur est survenue.", isUser: false },
