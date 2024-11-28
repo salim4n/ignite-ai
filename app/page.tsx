@@ -107,10 +107,12 @@ export default function Home() {
 			<div className="bg-primary p-4">
 				<h2 className="text-2xl font-bold text-primary-foreground flex items-center">
 					<Logo />
-					QA - DATA
 				</h2>
+				<br />
+				<span className="text-sm text-white font-semibold">Spidr AI</span>
+				<br />
 				<span className="text-sm text-white font-semibold">
-					L IA est connecté à une base de données de fret de la société Spydr
+					L IA est connecté à une base de données de fret de la société Spidr
 				</span>
 				<br />
 				<span className="text-sm text-white font-semibold">
